@@ -100,19 +100,73 @@ render js: "alert('Hello Rails');" #rendering JS
 
 				<section>
 					<h3>ERB explanation</h3>
+					<p align="left">ERB (Embedded RuBy) is a feature of Ruby that enables you to conveniently generate any kind of text, in any quantity, from templates. The templates themselves combine plain text with Ruby code for variable substitution and flow control, which makes them easy to write and maintain.</p>
 					<pre><code>
+Hello, <%= @name %>.
+Today is <%= Time.now.strftime('%A') %>.
 
+ <% for @item in @shopping_list %>
+   <%= @item %>
+ <% end %>
 					</code></pre>
+					<p align="left">Within an ERB template, Ruby code can be included using both <% %> and <%= %> tags. The <% %> tags are used to execute Ruby code that does not return anything, such as conditions, loops or blocks, and the <%= %> tags are used when you want output.</p>
 				</section>
 
 				<section>
 					<h3>Templates, Partials and Layouts</h3>
-					
+					<p align="left">As mentioned, the final HTML output is a composition of three Rails elements: Templates, Partials and Layouts.</p>
+				</section>
+
+				<section>
+					<h3>Templates</h3>
+					<pre><code>
+<%= form_for(@product) do |f| %>
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :price %><br>
+    <%= f.number_field :price %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+					</code></pre>
+				</section>
+
+				<section>
+					<h3>Partials</h3>
+					<p align="left">Partial templates - usually just called "partials" - are another device for breaking the rendering process into more manageable chunks. With partials, you can extract pieces of code from your templates to separate files and also reuse them throughout your templates.</p>
+					<pre><code>
+<%= render "shared/menu" %>
+					</code></pre>
+					<p align="left">That code will pull in the partial from app/views/shared/_menu.html.erb. Sharing variables between partials: </p>
+					<pre><code>
+<%= render partial: "product", locals: {product: @product} %>
+<%= render partial: "product", as: "item" %>
+					</code></pre>
+				</section>
+
+				<section>
+					<h3>Layouts</h3>
+					<p align="left">Layouts can be used to render a common view template around the results of Rails controller actions. Typically, a Rails application will have a couple of layouts that pages will be rendered within. For example, a site might have one layout for a logged in user and another for the marketing or sales side of the site.</p>
+					<pre><code>
+articles/show.html.erb
+<%= render partial: 'article', layout: 'box', locals: {article: @article} %>
+
+#articles/_box.html.erb
+<div class='box'>
+  <%= yield %>
+</div>
+					</code></pre>
+					<a href="http://guides.rubyonrails.org/layouts_and_rendering.html#structuring-layouts" target="_blank">More about layouts</a>
 				</section>
 
 				<section>
 					<h3>Some Action View helpers overview</h3>
-					
+					<a href="http://guides.rubyonrails.org/action_view_overview.html#overview-of-helpers-provided-by-action-view">Rails Guide (Helpers)</a>
 				</section>
 
 				<section>
